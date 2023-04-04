@@ -8,6 +8,7 @@ import styles from "../config/styles"
 
 export default function UsuarioCadastro() {
     const [nome, setNome] = useState("")
+    const [email, setEmail] = useState("")
 
     async function handleRegister() {
         // inicializa o banco de dados
@@ -18,7 +19,7 @@ export default function UsuarioCadastro() {
             // Segundo parâmetro é os dados que serão inseridos
             {
                 nome: nome,
-                email: "fausto@fausto.com",
+                email: email,
 
             }
         ).then((docRef) => {
@@ -35,6 +36,12 @@ export default function UsuarioCadastro() {
                 mode="outlined"
                 value={nome}
                 onChangeText={setNome}
+            />
+            <TextInput
+                label="Email"
+                mode="outlined"
+                value={email}
+                onChangeText={setEmail}
             />
             <Button
                 mode="contained"
