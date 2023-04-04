@@ -1,7 +1,7 @@
 import { View } from "react-native"
 import { Button, Text, TextInput } from "react-native-paper"
-import { useState } from "react"
-import { addDoc, collection } from "firebase/firestore"
+import { useEffect, useState } from "react"
+import { addDoc, collection, onSnapshot } from "firebase/firestore"
 import { db } from "../config/firebase"
 // importa a aplicação em Firebase
 import styles from "../config/styles"
@@ -9,6 +9,7 @@ import styles from "../config/styles"
 export default function UsuarioCadastro() {
     const [nome, setNome] = useState("")
     const [email, setEmail] = useState("")
+    const [users, setUsers] = useState([])
 
     async function handleRegister() {
         // inicializa o banco de dados
@@ -28,9 +29,41 @@ export default function UsuarioCadastro() {
         });
     }
 
+    useEffect(() => {
+        const unsubscribe = onSnapshot(
+            collection(db, "usuarios"),
+            (querySnapshot) => {
+                const users = [];
+                querySnapshot.forEach((doc) => {
+                    users.push(
+                        {
+                            ...doc.data(),
+                            id: doc.id
+                        }
+                    );
+                });
+                setUsers(users);
+            }
+        );
+        console.log(users);
+        // componentDidUnmount o componete saiu de cena
+        return () => unsubscribe;
+    }, [])
+
     return (
         <View style={styles.container}>
             <Text>Cadastro do Usuário</Text>
+
+            {
+                users.map((user) => (
+                    <View key={user.id}>
+                        <Text>{user.nome}</Text>
+                        <Text>{user.email}</Text>
+                    </View>
+                ))
+
+            }
+
             <TextInput
                 label="Nome"
                 mode="outlined"
