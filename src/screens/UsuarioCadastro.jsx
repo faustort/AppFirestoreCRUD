@@ -30,19 +30,24 @@ export default function UsuarioCadastro() {
     }
 
     useEffect(() => {
+        // onSnapshot é responsável por escutar as alterações na coleção
         const unsubscribe = onSnapshot(
+            // Primeiro parâmetro é a coleção que é a origem dos dados
             collection(db, "usuarios"),
+            // Segundo parâmetro é os dados que serão inseridos
+            // querySnapshot é o retorno da coleção
             (querySnapshot) => {
-                const users = [];
+                // users neste caso é um array temporário
+                const usersTemp = [];
                 querySnapshot.forEach((doc) => {
-                    users.push(
+                    usersTemp.push(
                         {
                             ...doc.data(),
                             id: doc.id
                         }
                     );
                 });
-                setUsers(users);
+                setUsers(usersTemp);
             }
         );
         console.log(users);
