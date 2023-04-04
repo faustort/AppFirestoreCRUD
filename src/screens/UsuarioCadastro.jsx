@@ -1,8 +1,7 @@
 import { View } from "react-native"
 import { Button, Text, TextInput } from "react-native-paper"
 import { useState } from "react"
-import { doc, setDoc } from "firebase/firestore"
-import { db } from "../config/firebase"
+import { addDoc, collection, doc, getFirestore, setDoc } from "firebase/firestore"
 import styles from "../config/styles"
 
 export default function UsuarioCadastro() {
@@ -10,19 +9,21 @@ export default function UsuarioCadastro() {
 
     async function handleRegister() {
         console.log(nome);
-        await setDoc(
-            doc(
-                db, 
-                "users", 
-                "alovelace"
-            ), 
+
+        const db = getFirestore();
+        // addDoc é responsável pela inserção do dado em uma coleção "Tabela"
+        const docRef = await addDoc(
+            // Primeiro parâmetro é a coleção que é a origem dos dados
+            collection(db, "usuarios"),
+            // Segundo parâmetro é os dados que serão inseridos
             {
-                primeiroNome: "Ada",
-                ultimoNome: "Lovelace",
-                dtNascimento: 1815
+                nome: nome,
+                email: "fausto@fausto.com",
 
             }
-        );
+        ).then((docRef) => {
+            console.log("Id do usuário: ", docRef.id);
+        });
     }
 
     return (
