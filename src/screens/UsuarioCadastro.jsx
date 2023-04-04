@@ -1,7 +1,7 @@
 import { View } from "react-native"
 import { Button, Text, TextInput } from "react-native-paper"
 import { useEffect, useState } from "react"
-import { addDoc, collection, onSnapshot } from "firebase/firestore"
+import { addDoc, collection, deleteDoc, doc, onSnapshot } from "firebase/firestore"
 import { db } from "../config/firebase"
 // importa a aplicação em Firebase
 import styles from "../config/styles"
@@ -60,12 +60,26 @@ export default function UsuarioCadastro() {
             }
         );
 
+
+
+
         // componentDidUnmount o componete saiu de cena
         // unsubscribe é o método que cancela a escuta da coleção
         // para evitar que o componente fique escutando a coleção mesmo que ele não esteja em cena
         // o retorno da função useEffect é o componentDidUnmount
         return () => unsubscribe;
     }, [])
+
+
+    function handleExcluir(user) {
+        // deleteDoc é responsável pela exclusão do dado em uma coleção "Tabela"
+        deleteDoc(
+            doc(db, "usuarios", user.id)
+        ).then(() => {
+            console.log("Usuário excluído com sucesso");
+        });
+
+    }
 
     return (
         <View style={{ ...styles.container, gap: 20 }}>
@@ -80,6 +94,8 @@ export default function UsuarioCadastro() {
                         <View key={user.id} style={styles.fullWidth}>
                             <Text style={styles.fullWidth}>{user.nome}</Text>
                             <Text style={styles.fullWidth}>{user.email}</Text>
+                            <Button onPress={() => handleEditar(user)}>Editar</Button>
+                            <Button onPress={() => handleExcluir(user)}>Excluir</Button>
                         </View>
                     ))
 
