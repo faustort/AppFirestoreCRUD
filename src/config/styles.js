@@ -7,9 +7,18 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
+        width: "100%",
+    },
+    containerInside: {
+        width: "100%",
+        alignSelf: 'stretch',
+        padding: 20
     },
     fullWidth: {
-        width: width,
+        alignSelf: 'stretch'
+    },
+    input: {
+        marginBottom: 10,
     }
 });
 

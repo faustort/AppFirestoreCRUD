@@ -1,5 +1,5 @@
 import { View } from "react-native"
-import { Button, IconButton, Text, TextInput } from "react-native-paper"
+import { Button, Divider, IconButton, Text, TextInput } from "react-native-paper"
 import { useEffect, useState } from "react"
 import { addDoc, collection, deleteDoc, doc, onSnapshot, updateDoc } from "firebase/firestore"
 import { db } from "../config/firebase"
@@ -93,9 +93,11 @@ export default function UsuarioCadastro() {
     }
 
     return (
-        <View style={{ ...styles.container, gap: 20 }}>
-            <Text>Cadastro do Usuário</Text>
-            <ScrollView>
+        <View style={{ ...styles.container, gap: 0 }}>
+            <Text style={{ margin: 20, fontSize: 24 }}>Cadastro do Usuário</Text>
+            <ScrollView
+                style={styles.containerInside}
+            >
                 {
                     // map é um método do array que percorre cada item do array
                     // neste caso o item é o user que é um objeto com os dados do usuário
@@ -113,60 +115,89 @@ export default function UsuarioCadastro() {
                                 borderColor: "#000",
                                 paddingHorizontal: 10,
                                 marginBottom: 10,
+                                alignSelf: 'stretch',
+                                // space-between
+                                justifyContent: "space-between",
+
+
                             }
                         }>
-                            <Text style={styles.fullWidth}>{user.nome}</Text>
-                            <Text style={styles.fullWidth}>{user.email}</Text>
-                            <IconButton
-                                icon={selectedUser && selectedUser.id === user.id ? "close" : "pencil"}
-                                onPress={() => handleEditar(user)}>Editar</IconButton>
-                            <IconButton
-                                icon={"trash-can-outline"}
-                                onPress={() => handleExcluir(user)}>Excluir</IconButton>
+                            <View style={{ flexGrow: 1 }}>
+                                <Text style={styles.fullWidth}>Nome: {user.nome}</Text>
+                                <Text style={styles.fullWidth}>E-mail: {user.email}</Text>
+                            </View>
+                            <View style={{ flexDirection: "row" }}>
+                                <IconButton
+                                    icon={selectedUser && selectedUser.id === user.id ? "close" : "pencil"}
+                                    onPress={() => handleEditar(user)}>Editar</IconButton>
+                                <IconButton
+                                    icon={"trash-can-outline"}
+                                    onPress={() => handleExcluir(user)}>Excluir</IconButton>
+                            </View>
                         </View>
                     ))}
             </ScrollView>
+            <View style={
+                {
+                    // width: '100%',
+                    boxShadow: "10px 10px 5px 10px rgba(0,0,0,0.2)",
+                    padding: 20,
+                    alignSelf: 'stretch'
+                }
+            }>
+                {
+                    selectedUser && (
+                        <>
+                            <TextInput
+                                label="Nome"
+                                mode="outlined"
+                                value={nome}
+                                // style={styles.fullWidth}
+                                onChangeText={setNome}
+                                style={styles.input}
+                            />
+                            <Divider />
+                            <TextInput
+                                label="Email"
+                                mode="outlined"
+                                style={styles.input}
+                                value={email}
+                                onChangeText={setEmail}
+                            />
+                            <Divider />
+                            <Button mode="contained" onPress={handleUpdate}>Atualizar Usuário</Button>
+                        </>
+                    )
+                }
 
-            {selectedUser && (
-                <>
-                    <TextInput
-                        label="Nome"
-                        mode="outlined"
-                        value={nome}
-                        style={styles.fullWidth}
-                        onChangeText={setNome}
-                    />
-                    <TextInput
-                        label="Email"
-                        mode="outlined"
-                        style={styles.fullWidth}
-                        value={email}
-                        onChangeText={setEmail}
-                    />
-                    <Button mode="contained" onPress={handleUpdate}>Atualizar Usuário</Button>
-                </>
-            )}
+                {
+                    !selectedUser && (
+                        <>
+                            <TextInput
+                                label="Nome"
+                                mode="outlined"
+                                value={nome}
+                                // style={styles.fullWidth}
+                                style={styles.input}
+                                onChangeText={setNome}
+                            />
 
-            {!selectedUser && (
-                <>
-                    <TextInput
-                        label="Nome"
-                        mode="outlined"
-                        value={nome}
-                        style={styles.fullWidth}
-                        onChangeText={setNome}
-                    />
-                    <TextInput
-                        label="Email"
-                        mode="outlined"
-                        style={styles.fullWidth}
-                        value={email}
-                        onChangeText={setEmail}
-                    />
-                    <Button mode="contained" onPress={handleRegister}>Cadastrar Usuário</Button>
-                </>
-            )}
-        </View>
+                            <TextInput
+                                label="Email"
+                                mode="outlined"
+                                // style={styles.fullWidth}
+                                style={styles.input}
+                                value={email}
+                                onChangeText={setEmail}
+                            />
+
+                            <Button mode="contained" onPress={handleRegister}>Cadastrar Usuário</Button>
+                        </>
+                    )
+                }
+            </View>
+        </View >
 
     )
 }
+
