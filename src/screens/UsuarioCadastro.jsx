@@ -1,5 +1,5 @@
 import { View } from "react-native"
-import { Button, Text, TextInput } from "react-native-paper"
+import { Button, IconButton, Text, TextInput } from "react-native-paper"
 import { useEffect, useState } from "react"
 import { addDoc, collection, deleteDoc, doc, onSnapshot, updateDoc } from "firebase/firestore"
 import { db } from "../config/firebase"
@@ -103,11 +103,26 @@ export default function UsuarioCadastro() {
                     users.map((user) => (
                         // key é um atributo obrigatório do React
 
-                        <View key={user.id} style={styles.fullWidth}>
+                        <View key={user.id} style={
+                            {
+                                ...styles.fullWidth,
+                                flexDirection: "row",
+                                alignItems: "center",
+                                borderRadius: 10,
+                                borderWidth: 1,
+                                borderColor: "#000",
+                                paddingHorizontal: 10,
+                                marginBottom: 10,
+                            }
+                        }>
                             <Text style={styles.fullWidth}>{user.nome}</Text>
                             <Text style={styles.fullWidth}>{user.email}</Text>
-                            <Button onPress={() => handleEditar(user)}>Editar</Button>
-                            <Button onPress={() => handleExcluir(user)}>Excluir</Button>
+                            <IconButton
+                                icon={selectedUser && selectedUser.id === user.id ? "close" : "pencil"}
+                                onPress={() => handleEditar(user)}>Editar</IconButton>
+                            <IconButton
+                                icon={"trash-can-outline"}
+                                onPress={() => handleExcluir(user)}>Excluir</IconButton>
                         </View>
                     ))}
             </ScrollView>
