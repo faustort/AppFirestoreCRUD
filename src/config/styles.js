@@ -19,7 +19,20 @@ const styles = StyleSheet.create({
     },
     input: {
         marginBottom: 10,
+    },
+    listBlock: {
+        alignSelf: 'stretch',
+        flexDirection: "row",
+        alignItems: "center",
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: "#000",
+        paddingHorizontal: 10,
+        marginBottom: 10,
+        alignSelf: "stretch",
+        justifyContent: "space-between",
     }
+
 });
 
 export default styles;

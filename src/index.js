@@ -3,8 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./screens/HomeScreen";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import UsuarioCadastro from "./screens/UsuarioCadastro";
-import UsuarioCadastro2 from "./screens/UsuarioCadastro copy";
-
+import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,17 +31,21 @@ export function MBTNavigation() {
             <MTB.Screen
                 name="HomeScreen"
                 component={HomeScreen}
-                icon="home"
                 options={{
                     tabBarLabel: 'Home',
+                    tabBarIcon: ({ color, size }) => (
+                        <Icon name="home" color={color} size={size} />
+                    ),
                 }}
             />
             <MTB.Screen
                 name="UsuarioCadastro"
                 component={UsuarioCadastro}
-                icon="account"
                 options={{
                     tabBarLabel: 'Cadastrar usuários',
+                    tabBarIcon: ({ color, size }) => (
+                        <Icon name="account-plus" color={color} size={size} />
+                    ),
                 }}
             />
         </MTB.Navigator>
