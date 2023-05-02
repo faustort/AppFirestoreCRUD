@@ -4,6 +4,7 @@ import HomeScreen from "./screens/HomeScreen";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import UsuarioCadastro from "./screens/UsuarioCadastro";
 import Icon from '@expo/vector-icons/MaterialCommunityIcons';
+import RegisterUsuario from "./screens/RegistroUsuario";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,7 +15,13 @@ export default function RootNavigation() {
                 screenOptions={{
                     headerShown: false
                 }}
+                initialRouteName="MTB"
+
             >
+                <Stack.Screen
+                    name="RegisterUsuario"
+                    component={RegisterUsuario}
+                />
                 <Stack.Screen
                     name="MTB"
                     component={MBTNavigation}
@@ -27,7 +34,8 @@ export default function RootNavigation() {
 const MTB = createMaterialBottomTabNavigator();
 export function MBTNavigation() {
     return (
-        <MTB.Navigator>
+        <MTB.Navigator
+        >
             <MTB.Screen
                 name="HomeScreen"
                 component={HomeScreen}
