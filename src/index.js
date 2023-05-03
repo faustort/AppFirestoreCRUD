@@ -5,6 +5,8 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import UsuarioCadastro from "./screens/UsuarioCadastro";
 import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 import RegisterUsuario from "./screens/RegistroUsuario";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,15 +17,19 @@ export default function RootNavigation() {
                 screenOptions={{
                     headerShown: false
                 }}
-                initialRouteName="MTB"
-
             >
                 <Stack.Screen
-                    name="RegisterUsuario"
-                    component={RegisterUsuario}
+                    name="LoginScreen"
+                    component={LoginScreen}
+
                 />
                 <Stack.Screen
-                    name="MTB"
+                    name="RegisterScreen"
+                    component={RegisterScreen}
+
+                />
+                <Stack.Screen
+                    name="MBTNavigation"
                     component={MBTNavigation}
                 />
             </Stack.Navigator>
