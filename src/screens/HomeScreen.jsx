@@ -44,10 +44,21 @@ export default function HomeScreen() {
                 if (!querySnapshot.empty) {
                     // pega o primeiro documento
                     const userData = querySnapshot.docs[0].data()
+                    // define o usuário
                     setUsuario(userData)
+                    // ou se preferir pode definir assim:
+                    setUsuario({
+                        nome: userData.nome,
+                        telefone: userData.telefone,
+                        email: userData.email,
+                        uid: userData.userUID
+                    })
                 } else {
                     console.log("Usuário não encontrado")
                 }
+            })
+            .catch((error) => {
+                console.log(error)
             })
     }, [usuario.uid])
 
