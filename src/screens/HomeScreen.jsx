@@ -7,57 +7,49 @@ import { auth, db } from "../config/firebase"
 import { collection, getDocs, query, where } from "firebase/firestore"
 
 export default function HomeScreen() {
-    const [usuario, setUsuario] = useState({
-        nome: "",
-        email: "",
-        telefone: "",
-        uid: ""
-    })
+    const [usuario, setUsuario] = useState({})
 
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
+        const unsub = onAuthStateChanged(auth, (user) => {
             if (user) {
                 console.log("Usuário UID: ", user.uid)
-                setUsuario({
-                    ...usuario,
-                    uid: user.uid,
-                })
+                setUsuario({ uid: user.uid })
             } else {
                 console.log("Usuário não logado")
             }
         })
 
+        return () => { unsub() }
     }, [])
 
-
     useEffect(() => {
-        if (usuario?.uid === "") return
 
-        // Seleciono a coleção de usuários
-        const usersRef = collection(db, "usuarios");
+        // verifica se uid não é vazio
+        if (!usuario.uid) return
 
-        // crio a query para buscar o usuário
-        const q = query(usersRef, where("userUID", "==", usuario.uid));
-        const querySnapshot = getDocs(q)
+        // seleciona a coleção usuarios
+        const usuariosRef = collection(db, "usuarios"),
+
+        // começa a preparar a busca
+        const q = query(
+            usuariosRef,
+            // define a cláusula where
+            where("userUID", "==", usuario.uid)
+        )
+
+        // executa a busca
+        getDocs(q)
             .then((querySnapshot) => {
+                // caso não esteja vazio
                 if (!querySnapshot.empty) {
-                    const userDoc = querySnapshot.docs[0];
-                    const userData = userDoc.data();
-                    setUsuario({
-                        ...usuario,
-                        nome: userData.nome,
-                        email: userData.email,
-                        telefone: userData.telefone
-
-                    })
+                    // pega o primeiro documento
+                    const userData = querySnapshot.docs[0].data()
+                    setUsuario(userData)
                 } else {
-                    console.log("User not found");
-                    return null;
+                    console.log("Usuário não encontrado")
                 }
             })
-    }, [usuario?.uid])
-
-
+    }, [usuario.uid])
 
     return (
         <View style={styles.container}>
