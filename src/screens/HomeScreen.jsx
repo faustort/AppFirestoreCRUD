@@ -28,7 +28,7 @@ export default function HomeScreen() {
         if (!usuario.uid) return
 
         // seleciona a coleção usuarios
-        const usuariosRef = collection(db, "usuarios"),
+        const usuariosRef = collection(db, "usuarios");
 
         // começa a preparar a busca
         const q = query(
@@ -64,7 +64,7 @@ export default function HomeScreen() {
 
     return (
         <View style={styles.container}>
-            <Text>Olá {usuario.nome}</Text>
+            <Text>Olá {usuario?.nome}</Text>
         </View>
     )
 }
