@@ -4,7 +4,7 @@ import styles from "../config/styles";
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../config/firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 export default function RegisterScreen({ navigation }) {
     // Aqui definimos nome e setNome como um objeto
@@ -93,7 +93,8 @@ export default function RegisterScreen({ navigation }) {
                 // criar um registro na coleção 'usuários'
                 // com os dados do usuário
                 // aqui eu seleciono a coleção "tabela"
-                const collectionRef = collection(db, 'usuarios');
+                // const collectionRef = collection(db, 'usuarios');
+                const docRef = doc(db, "usuarios", userUID);
                 // aqui eu crio um registro na coleção "tabela"
                 // com os dados do usuário
                 const dadosAInserir = {
@@ -103,7 +104,7 @@ export default function RegisterScreen({ navigation }) {
                     userUID: userUID
                 }
 
-                const docRef = addDoc(collectionRef, dadosAInserir)
+                const docRef = setDoc(docRef, dadosAInserir)
                     .then((docRef) => {
                         console.log(docRef)
                         navigation.navigate('LoginScreen')
